@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>FinProPay</title>
+<!--
+  TikTok linki üçün yönləndirmə səhifəsi.
+  Hər açılışda GA4-ə "tiktok_click" hadisəsi göndərir (os = android / ios / other),
+  sonra istifadəçini Google Play-ə yönləndirir.
+  GA4 property: "FinProPay TikTok" (web axını "TikTok link").
+-->
+<script>
+  var GA_ID = "G-PDC1E42HW6";
+  var PLAY_URL = "https://play.google.com/store/apps/details?id=com.comfortableservice.finpropay"
+    + "&referrer=utm_source%3Dtiktok%26utm_medium%3Dbio";
+
+  var ua = navigator.userAgent || "";
+  var os = /android/i.test(ua) ? "android"
+    : (/iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) ? "ios"
+    : "other";
+  var source = new URLSearchParams(location.search).get("s") || "bio";
+
+  var done = false;
+  function go() { if (!done) { done = true; location.replace(PLAY_URL); } }
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag("js", new Date());
+  gtag("config", GA_ID, { send_page_view: false });
+  gtag("event", "tiktok_click", { os: os, link_source: source, event_callback: go });
+
+  var tag = document.createElement("script");
+  tag.async = true;
+  tag.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+  document.head.appendChild(tag);
+
+  // Analitika yüklənməsə belə istifadəçi gözləməsin.
+  setTimeout(go, 1200);
+</script>
+<style>
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+         font-family: system-ui, sans-serif; background: #1A237E; color: #fff; }
+  a { color: #fff; }
+</style>
+</head>
+<body>
+  <p>Google Play açılır… <a href="https://play.google.com/store/apps/details?id=com.comfortableservice.finpropay">Açılmırsa bura bas</a></p>
+</body>
+</html>
