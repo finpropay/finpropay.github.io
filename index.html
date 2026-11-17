@@ -13,14 +13,15 @@
 -->
 <script>
   var GA_ID = "G-PDC1E42HW6";
-  var PLAY_URL = "https://play.google.com/store/apps/details?id=com.comfortableservice.finpropay"
-    + "&referrer=utm_source%3Dtiktok%26utm_medium%3Dbio";
 
   var ua = navigator.userAgent || "";
   var os = /android/i.test(ua) ? "android"
     : (/iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) ? "ios"
     : "other";
-  var source = new URLSearchParams(location.search).get("s") || "bio";
+  // ?s=v1 / v2 / promote ... — həm Analytics-də, həm Play Console-da (utm_medium) mənbə kimi görünür
+  var source = (new URLSearchParams(location.search).get("s") || "bio").replace(/[^a-z0-9_-]/gi, "").slice(0, 30) || "bio";
+  var PLAY_URL = "https://play.google.com/store/apps/details?id=com.comfortableservice.finpropay"
+    + "&referrer=" + encodeURIComponent("utm_source=tiktok&utm_medium=" + source);
 
   var done = false;
   function go() { if (!done) { done = true; location.replace(PLAY_URL); } }
