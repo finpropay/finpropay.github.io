@@ -58,7 +58,6 @@
 
   // Mətnlər həmişə Azərbaycan dilində
   var T = {
-    tagline: "Kredit skorunu pulsuz öyrən",
     open: "Google Play-də aç",
     opening: "Google Play açılır…",
     fallback: "Açılmasa düyməyə toxun",
@@ -99,8 +98,7 @@
     box-shadow: 0 12px 32px rgba(232, 129, 47, 0.12);
   }
   .icon { width: 88px; height: 88px; border-radius: 22px; display: block; margin: 0 auto 16px; }
-  h1 { font-size: 24px; margin: 0 0 4px; letter-spacing: -0.01em; }
-  .tagline { margin: 0 0 24px; color: var(--muted); font-size: 15px; }
+  h1 { font-size: 24px; margin: 0 0 24px; letter-spacing: -0.01em; }
   .btn {
     display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
     min-height: 52px; border: 0; border-radius: 14px; background: var(--brand); color: #fff;
@@ -124,7 +122,6 @@
   <main class="card">
     <img class="icon" src="https://play-lh.googleusercontent.com/ZRRZIwnT2Owx-pGNrohvPqzkGIpRMyKlBFv2Xbr-vzfr8BMam7_oWEcpdrTYXxfGhJ6UHqNQ6qDeaDluu4ap=w176-h176-rw" alt="FinProPay">
     <h1>FinProPay</h1>
-    <p class="tagline" id="tagline"></p>
 
     <section id="android" hidden>
       <a class="btn" id="open-btn" href="#">
@@ -141,7 +138,6 @@
     </section>
   </main>
 <script>
-  document.getElementById("tagline").textContent = T.tagline;
   if (os === "ios") {
     document.getElementById("ios").hidden = false;
     document.getElementById("ios-title").textContent = T.iosTitle;
