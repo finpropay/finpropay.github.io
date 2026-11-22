@@ -21,9 +21,11 @@
   var params = new URLSearchParams(location.search);
   var preview = params.get("preview");
   var ua = navigator.userAgent || "";
-  var os = preview || (/android/i.test(ua) ? "android"
+  var os = (preview === "tiktok" ? "android" : preview) || (/android/i.test(ua) ? "android"
     : (/iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) ? "ios"
     : "other");
+  // TikTok-un daxili brauzeri (Android WebView) Play Market-i çox vaxt açmır — ?preview=tiktok ilə baxmaq olar
+  var inApp = preview === "tiktok" || (os === "android" && /; wv\)|musical_ly|bytedance|trill/i.test(ua));
   // ?s=v1 / v2 / promote ... — həm Analytics-də, həm Play Console-da (utm_medium) mənbə kimi görünür
   var source = (params.get("s") || "bio").replace(/[^a-z0-9_-]/gi, "").slice(0, 30) || "bio";
   var REFERRER = encodeURIComponent("utm_source=tiktok&utm_medium=" + source);
@@ -61,6 +63,7 @@
     open: "Google Play-də aç",
     opening: "Google Play açılır…",
     fallback: "Açılmasa düyməyə toxun",
+    inAppHint: "Play açılmırsa: yuxarıda <b>⋯</b> düyməsinə toxun → <b>Chrome-da aç</b>",
     iosTitle: "Hələlik yalnız Android-də",
     iosText: "FinProPay-in iPhone versiyası hələ yoxdur. Android telefonun varsa, bu linki orada aç.",
     copy: "Linki kopyala",
@@ -115,6 +118,8 @@
   .ios-badge { display: inline-block; margin: 0 0 12px; padding: 6px 12px; border-radius: 999px;
                background: var(--bg); color: var(--brand-dark); font-size: 13px; font-weight: 600; }
   .ios-text { margin: 0 0 24px; color: var(--muted); font-size: 15px; line-height: 1.5; }
+  .inapp-hint { margin: 14px 0 0; padding: 12px 14px; border-radius: 12px; font-size: 15px; line-height: 1.45;
+                background: rgba(232, 129, 47, 0.14); color: inherit; }
   [hidden] { display: none !important; }
 </style>
 </head>
@@ -129,6 +134,7 @@
         <span id="open-label"></span>
       </a>
       <p class="status" id="status"><span class="spinner"></span><span id="status-text"></span></p>
+      <p class="inapp-hint" id="inapp-hint" hidden></p>
     </section>
 
     <section id="ios" hidden>
@@ -161,6 +167,11 @@
       var s = document.getElementById("status");
       s.innerHTML = "";
       s.textContent = T.fallback;
+      if (inApp) {
+        var h = document.getElementById("inapp-hint");
+        h.innerHTML = T.inAppHint;
+        h.hidden = false;
+      }
     }, 2500);
   }
 </script>
